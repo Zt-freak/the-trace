@@ -23,7 +23,7 @@ namespace EntityFrameworkCore.WeekOpdracht.Business
             var userContext = context.Set<User>();
             var exists = userContext.Any(x=>x.Email == user.Email);
 
-            if (!exists)
+            if (exists)
                 throw new System.Exception("User already exists with given e-mail");
 
             userContext.Add(user);
