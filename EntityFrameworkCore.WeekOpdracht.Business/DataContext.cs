@@ -7,6 +7,7 @@ namespace EntityFrameworkCore.WeekOpdracht.Business
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Message> Messages { get; set; }
+        public DbSet<Log> Logs { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -17,6 +18,10 @@ namespace EntityFrameworkCore.WeekOpdracht.Business
         {
             modelBuilder.Entity<Message>()
                 .Property(b => b.DateTimeSend)
+                .HasDefaultValueSql("getdate()");
+
+            modelBuilder.Entity<Log>()
+                .Property(b => b.Logged)
                 .HasDefaultValueSql("getdate()");
         }
     }
