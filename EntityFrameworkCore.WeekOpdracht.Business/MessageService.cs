@@ -1,6 +1,7 @@
 ﻿using EntityFrameworkCore.WeekOpdracht.Business.Entities;
 using EntityFrameworkCore.WeekOpdracht.Business.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +11,13 @@ namespace EntityFrameworkCore.WeekOpdracht.Business
     public class MessageService : IMessageService
     {
         private readonly DataContext context;
+        private readonly ILogger<MessageService> _logger;
 
-        public MessageService()
+
+        public MessageService(ILogger<MessageService> logger)
         {
             this.context = new DataContext();
+            _logger = logger;
         }
 
         public Message Add(Message message)

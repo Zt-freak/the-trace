@@ -1,6 +1,7 @@
 ﻿using EntityFrameworkCore.WeekOpdracht.Business.Entities;
 using EntityFrameworkCore.WeekOpdracht.Business.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 
 namespace EntityFrameworkCore.WeekOpdracht.Controllers
@@ -10,10 +11,12 @@ namespace EntityFrameworkCore.WeekOpdracht.Controllers
     public class MessageController : ControllerBase
     {
         private readonly IMessageService messageService;
+        private readonly ILogger<MessageController> _logger;
 
-        public MessageController(IMessageService messageService)
+        public MessageController(IMessageService messageService, ILogger<MessageController> logger)
         {
             this.messageService = messageService;
+            _logger = logger;
         }
 
         [HttpPost]
@@ -21,10 +24,12 @@ namespace EntityFrameworkCore.WeekOpdracht.Controllers
         {
             try
             {
+                _logger.LogInformation($"saving message");
                 return Ok(messageService.Add(message));
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 return BadRequest(new
                 {
                     Message = ex.Message
@@ -38,10 +43,12 @@ namespace EntityFrameworkCore.WeekOpdracht.Controllers
         {
             try
             {
+                _logger.LogInformation($"fetching message");
                 return Ok(messageService.GetById(id));
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 return BadRequest(new
                 {
                     Message = ex.Message
@@ -55,10 +62,12 @@ namespace EntityFrameworkCore.WeekOpdracht.Controllers
         {
             try
             {
+                _logger.LogInformation($"fetching messages");
                 return Ok(messageService.Get(userId));
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 return BadRequest(new
                 {
                     Message = ex.Message

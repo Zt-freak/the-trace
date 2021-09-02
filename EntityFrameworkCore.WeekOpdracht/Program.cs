@@ -1,11 +1,12 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using NLog.Web;
 
 namespace EntityFrameworkCore.WeekOpdracht
 {
     public class Program
     {
-        private static readonly NLog.Logger NLogger = NLog.LogManager.GetLogger("TheLogger");
+        private static readonly NLog.Logger NLogger = NLog.LogManager.GetCurrentClassLogger();
         public static void Main(string[] args)
         {
             NLogger.Info("Hello world");
@@ -17,6 +18,7 @@ namespace EntityFrameworkCore.WeekOpdracht
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                });
+                })
+                .UseNLog();
     }
 }

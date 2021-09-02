@@ -5,15 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="NLog.config" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="NLog.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
+    <None Remove="C:\Users\bnkho\.nuget\packages\nlog.config\4.7.11\contentFiles\any\any\NLog.config" />
   </ItemGroup>
 
   <ItemGroup>

@@ -2,6 +2,7 @@
 using EntityFrameworkCore.WeekOpdracht.Business.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +15,12 @@ namespace EntityFrameworkCore.WeekOpdracht.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService userService;
+        private readonly ILogger<UserController> _logger;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, ILogger<UserController> logger)
         {
             this.userService = userService;
+            _logger = logger;
         }
 
         [HttpPost]
@@ -26,11 +29,12 @@ namespace EntityFrameworkCore.WeekOpdracht.Controllers
             try
             {
                 var saved = userService.Add(user);
-
+                _logger.LogInformation($"saving user {user.Name} {user.Lastname}");
                 return Ok(saved);
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 return BadRequest(new
                 {
                     Message = ex.Message,
@@ -44,10 +48,12 @@ namespace EntityFrameworkCore.WeekOpdracht.Controllers
         {
             try
             {
+                _logger.LogInformation($"getting user with id {id}");
                 return Ok(userService.Get(id));
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 return BadRequest(new
                 {
                     Message = ex.Message,
