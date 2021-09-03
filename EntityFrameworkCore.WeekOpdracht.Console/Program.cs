@@ -3,15 +3,15 @@ using EntityFrameworkCore.WeekOpdracht.Business.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
+using System;
+using TheLogger;
 
 namespace EntityFrameworkCore.WeekOpdracht.Console
 {
     class Program
     {
-        private static readonly NLog.Logger NLogger = NLog.LogManager.GetCurrentClassLogger();
         static void Main(string[] args)
         {
-            NLogger.Info("Hello world");
             var serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection);
 
@@ -30,8 +30,13 @@ namespace EntityFrameworkCore.WeekOpdracht.Console
             services.AddLogging(builder => {
                 builder.ClearProviders();
                 builder.SetMinimumLevel(LogLevel.Information);
-                builder.AddNLog("NLog.config");
-            });
+                //builder.AddNLog("NLog.config");
+                builder.AddTheLogger(config => {
+                    config.logToConsole = true;
+                    config.logToDB = true;
+                    config.context = new DataContext();
+                });
+        });
         }
     }
 }

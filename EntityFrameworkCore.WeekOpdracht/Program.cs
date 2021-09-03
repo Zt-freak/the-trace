@@ -1,6 +1,8 @@
+using EntityFrameworkCore.WeekOpdracht.Business;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using NLog.Web;
+using TheLogger;
 
 namespace EntityFrameworkCore.WeekOpdracht
 {
@@ -19,6 +21,14 @@ namespace EntityFrameworkCore.WeekOpdracht
                 {
                     webBuilder.UseStartup<Startup>();
                 })
-                .UseNLog();
+                //.UseNLog();
+                .ConfigureLogging(builder =>
+                    builder.AddTheLogger(config =>
+                    {
+                        config.logToConsole = true;
+                        config.logToDB = true;
+                        config.context = new DataContext();
+                    })
+        );
     }
 }
